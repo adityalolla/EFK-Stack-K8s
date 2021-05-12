@@ -78,5 +78,50 @@ helm repo add elastic https://helm.elastic.co
 helm install elasticsearch elastic/elasticsearch -f values.yaml
 ```
 
+### Kibana 
 
+Kibana is a data visualization dashboard software for Elasticsearch. It provides visualization capabilities on top of the content indexed on an Elasticsearch cluster. Users can create bar, line and scatter plots, or pie charts and maps on top of large volumes of data.
 
+#### Install : 
+
+```
+helm install kibana elastic/kibana
+```
+
+We will be creating an ingress for this service, but one way to check the install on localhost is to use kubectl port-forward
+```
+kubectl get services | grep kibana 
+#We can see that the port the service uses is 5601
+kubectl port-forward deployment/kibana-kibana 5601 
+```
+Navigate to localhost:5601 to see the kibana dashboard. 
+
+### Ingress controller : 
+
+Ingress is a k8s component that is used to handle incoming requests to our backend services. There are many ingress controllers that we can use. We will be using nginx ingress controller for our project. The helm chart will dynamically also provision a Linode Nodebalancer. You can check this on the Linode dashboard once installing the chart. 
+
+```
+helm repo add stable https://charts.helm.sh/stable 
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install nginx-ingress ingress-nginx/ingress-nginx
+```
+
+#### Creating the ingress object 
+
+We will use the ingress.yaml file to define our rule and forwarding to the backend service : kibana on the port of the clusterip 
+When specifying the hostname in the yaml file, we will need to give the FQDN of the nodebalancer from Linode as IP address will not be accepted. This FQDN you can get from your Linode dashboard under Node balancers. 
+
+To verify Kibana: enter the fqdn in your browser 
+PLS NOTE ::: FOR A PROD SETUP, YOU WILL ALSO NEED TO ADD YOUR DOMAIN ROUTES AND THE TLS SECTION TO THE YAML FILE.
+
+### FluentD 
+
+Fluentd is an open source data collector which adds value to collected data such as timestamps, source, hosts etc. We will be using FluentD instead of Logstash in our project. 
+
+#### Install : 
+
+```
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install fluentd bitnami/fluentd
+```
+Fluentd will be deployed on every node in your cluster as a daemonset object. 
