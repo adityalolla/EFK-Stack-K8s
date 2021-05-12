@@ -34,3 +34,39 @@ lke26481-38008-609b7f95f912   Ready    <none>   51m   v1.18.18   192.168.212.115
 lke26481-38008-609b7f961e02   Ready    <none>   51m   v1.18.18   192.168.205.244   45.33.46.79     Debian GNU/Linux 9 (stretch)   5.10.0-6-cloud-amd64   docker://19.3.15
 ```
 
+### NodeJS Web Application 
+
+We have a simple nodejs app which runs on port 3000 and runs on the container. The application is hosted on my github as docker nodejs web app. This app has also been dockerized and the image is hosted on a private dockerhub repository. To access this image we have already created the docker secret. 
+
+```
+kubectl apply -f deployment.yaml 
+kubectl logs podname 
+{"level":30,"time":"2021-05-12T08:25:53.357Z","pid":1,"hostname":"uswest-node-76cd9748fc-jrkkm","msg":"This is a nodejs app"}
+{"level":30,"time":"2021-05-12T08:25:53.358Z","pid":1,"hostname":"uswest-node-76cd9748fc-jrkkm","msg":"The app has been dockerized"}
+{"level":30,"time":"2021-05-12T08:25:53.358Z","pid":1,"hostname":"uswest-node-76cd9748fc-jrkkm","msg":"Orchestration will be done by K8s"}
+{"level":30,"time":"2021-05-12T08:25:53.358Z","pid":1,"hostname":"uswest-node-76cd9748fc-jrkkm","msg":"Deployment will be setup"}
+{"level":30,"time":"2021-05-12T08:25:53.358Z","pid":1,"hostname":"uswest-node-76cd9748fc-jrkkm","msg":"This is to test the ELK stack deployment"}
+Server running at http://0.0.0.0:3000/
+{"level":30,"time":"2021-05-12T08:25:53.362Z","pid":1,"hostname":"uswest-node-76cd9748fc-jrkkm","msg":"App listening on port 3000"}
+```
+
+### EFK Stack 
+
+We want to deploy EFK for collecting and visualizing application data and metrics. Elasticsearch for storage of app data, fluentd which collects and sends data and finally Kibana for visualizing this data. 
+
+* Add metadata to the collected logs 
+* Add pod source 
+* Format
+* Deploy elasticsearch using replicated stateful set
+* Helm charts
+
+### ElasticSearch 
+
+Elasticsearch is a search engine for analyzing application, infrastructure and logging data. (A lof more use cases on Elasticsearch). It stores data in json format and relies on indexing to provide minimum latency and support powerful queries. 
+
+* Deploy ES using helm 
+* Configure physical storage from Linode for persistence 
+* Setup values.yaml 
+
+
+
