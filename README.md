@@ -1,5 +1,5 @@
 
-# ELK Stack 
+# EFK Stack 
 
 For this project we will be using a Linode K8s - Managed control plane kubernetes cluster. 
 * Install K8s cluster using Linode v1.18
