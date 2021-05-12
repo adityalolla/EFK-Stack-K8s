@@ -68,5 +68,15 @@ Elasticsearch is a search engine for analyzing application, infrastructure and l
 * Configure physical storage from Linode for persistence 
 * Setup values.yaml 
 
+#### Install : 
+
+We will want to generate a values.yaml file which will contain the custom parameters we want to specify for our installation of elasticsearch. We want to speficy our resource requests and a volume claim template specifying the storage class. 
+Values.yaml contains this information and it will dynamically create the needed storage objects in Linode. We can check the K8s dashboard to see the persistent volumes show up. 
+
+```
+helm repo add elastic https://helm.elastic.co
+helm install elasticsearch elastic/elasticsearch -f values.yaml
+```
+
 
 
