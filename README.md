@@ -170,7 +170,7 @@ Once on Kibana ->
 * Click on the left hand side menu again and go to Discover 
 * You will start to see your log files now. 
 
-![Alt text](/Users/hira/Desktop/kibana.jpg?raw=true "Index Pattern")
+<img width="1204" alt="Kibana" src="https://user-images.githubusercontent.com/81785727/118116618-54deed80-b39f-11eb-8001-045484f75984.png">
 
 #### Finishing up 
 
