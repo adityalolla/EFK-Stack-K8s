@@ -175,3 +175,5 @@ Once on Kibana ->
 #### Finishing up 
 
 You can always configure different micro services to use different index names, or send all data to app index and then create index patterns or dashboards from once log stream source. 
+
+<img width="1421" alt="Screen Shot 2021-05-13 at 3 59 30 AM" src="https://user-images.githubusercontent.com/81785727/118116859-af784980-b39f-11eb-8d58-9592567b557c.png">
