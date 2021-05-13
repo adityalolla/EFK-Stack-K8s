@@ -81,19 +81,19 @@ data:
     </filter>
 
 
-    <match kubernetes.var.log.containers.**java-app**.log>
-      @type elasticsearch
-      include_tag_key true
-      host "elasticsearch-master.default.svc.cluster.local"
-      port "9200"
-      index_name "java-app-logs"
-      <buffer>
-        @type file
-        path /opt/bitnami/fluentd/logs/buffers/java-logs.buffer
-        flush_thread_count 2
-        flush_interval 5s
-      </buffer>
-    </match>
+    # <match kubernetes.var.log.containers.**java-app**.log>
+    #   @type elasticsearch
+    #   include_tag_key true
+    #   host "elasticsearch-master.default.svc.cluster.local"
+    #   port "9200"
+    #   index_name "java-app-logs"
+    #   <buffer>
+    #     @type file
+    #     path /opt/bitnami/fluentd/logs/buffers/java-logs.buffer
+    #     flush_thread_count 2
+    #     flush_interval 5s
+    #   </buffer>
+    # </match>
 
     <match kubernetes.var.log.containers.**node-app**.log>
       @type elasticsearch
