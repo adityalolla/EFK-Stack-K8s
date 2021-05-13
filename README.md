@@ -170,6 +170,8 @@ Once on Kibana ->
 * Click on the left hand side menu again and go to Discover 
 * You will start to see your log files now. 
 
+![Alt text](/Users/hira/Desktop/kibana.jpg?raw=true "Index Pattern")
+
 #### Finishing up 
 
 You can always configure different micro services to use different index names, or send all data to app index and then create index patterns or dashboards from once log stream source. 
