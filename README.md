@@ -125,3 +125,51 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install fluentd bitnami/fluentd
 ```
 Fluentd will be deployed on every node in your cluster as a daemonset object. 
+
+The next steps will cover how to setup the fluentd forwarder to collect logs from your application. 
+
+* From the K8s dashboard : http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default
+* You will see a config Map called : fluentd-forwarder-cm
+* Edit this config file with the file in the project : fluentd-config.yaml 
+* This yaml file defines : fluentd.conf which will be read by the fluent pods in the daemonset. 
+* For the config file at a high level : We are adding the container regex **node-app**.log
+
+#### To verify fluentd setup : 
+
+```
+kubectl get pods | grep flu 
+fluentd-0                                                 1/1     Running   0          24h
+fluentd-49rlk                                             1/1     Running   0          9m43s
+fluentd-ctrh7                                             1/1     Running   0          10m
+fluentd-t7m8s                                             1/1     Running   0          9m21s
+
+kubectl logs fluentd-t7m8s
+#You should see your app log messages here 
+```
+
+### Elasticsearch setup 
+
+Follow the fluent config to setup elastic search. You will need the FQDN of the Elasticsearch K8s service name : elasticsearch-master.default.svc.local.io 
+We will also set up an index name for our app logs. We will then define the JSON parser to extract the needed logs. 
+
+Note : Before adding elasticsearch step, we will print all logs to stdout. That is the reason we can see the logs when doing kubectl logs fluentdpod 
+Once elasticsearch is configured all logs are sent to it. Visualization can be done through Kibana. 
+
+### Kibana setup
+
+```
+kubectl port-forward deployment/kibana-kibana 5601 &
+#Use localhost:5601 to login to kibana dashboard 
+```
+Once on Kibana -> 
+* From the menu on the left hand side -> Management -> Stack management 
+* Under index management you should be able to see your index which was defined in the fluentd config file for elasticsearch index_name
+* Click on Index Patterns under Kibana 
+* Create index pattern 
+* Give a name to your pattern and select the index for it 
+* Click on the left hand side menu again and go to Discover 
+* You will start to see your log files now. 
+
+#### Finishing up 
+
+You can always configure different micro services to use different index names, or send all data to app index and then create index patterns or dashboards from once log stream source. 
