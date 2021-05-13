@@ -26,41 +26,21 @@ data:
         port 9880
     </source>
 
-    # # Match all to stdout
-    # <match **>
-    #   @type stdout
-    # </match>
-
-    # Setting up elasticsearch
-    <match **>
-       @type elasticsearch
-       host "elasticsearch-master.default.svc.cluster.local"
-       port "9200"
-       index_name "app-logs"
-       include_tag_key true
-       <buffer>
-          @type file
-          path /opt/bitnami/fluentd/logs/buffers/logs.buffer
-          flush_thread_count 2
-          flush_interval 5s
-       </buffer>
-    </match>
-
     # Throw the healthcheck to the standard output instead of forwarding it
     <match fluentd.healthcheck>
         @type null
     </match>
 
-    # # Get the logs from the containers running in the node
-    # <source>
-    #   @type tail
-    #   path /var/log/containers/*-app*.log
-    #   pos_file /opt/bitnami/fluentd/logs/buffers/fluentd-docker.pos
-    #   tag kubernetes.*
-    #   read_from_head true
-    #   format json
-    #   time_format %Y-%m-%dT%H:%M:%S.%NZ
-    # </source>
+    # Get the logs from the containers running in the node
+    <source>
+      @type tail
+      path /var/log/containers/*-nodejs*.log
+      pos_file /opt/bitnami/fluentd/logs/buffers/fluentd-docker.pos
+      tag kubernetes.*
+      read_from_head true
+      format json
+      time_format %Y-%m-%dT%H:%M:%S.%NZ
+    </source>
 
     <filter **>
       @type parser
@@ -80,21 +60,6 @@ data:
         @type kubernetes_metadata
     </filter>
 
-
-    # <match kubernetes.var.log.containers.**java-app**.log>
-    #   @type elasticsearch
-    #   include_tag_key true
-    #   host "elasticsearch-master.default.svc.cluster.local"
-    #   port "9200"
-    #   index_name "java-app-logs"
-    #   <buffer>
-    #     @type file
-    #     path /opt/bitnami/fluentd/logs/buffers/java-logs.buffer
-    #     flush_thread_count 2
-    #     flush_interval 5s
-    #   </buffer>
-    # </match>
-
     <match kubernetes.var.log.containers.**node-app**.log>
       @type elasticsearch
       include_tag_key true
@@ -104,6 +69,20 @@ data:
       <buffer>
         @type file
         path /opt/bitnami/fluentd/logs/buffers/node-logs.buffer
+        flush_thread_count 2
+        flush_interval 5s
+      </buffer>
+    </match>
+
+    <match kubernetes.var.log.containers.**nodejs-apps**.log>
+      @type elasticsearch
+      include_tag_key true
+      host "elasticsearch-master.default.svc.cluster.local"
+      port "9200"
+      index_name "node-app-logs"
+      <buffer>
+        @type file
+        path /opt/bitnami/fluentd/logs/buffers/nodejs-logs.buffer
         flush_thread_count 2
         flush_interval 5s
       </buffer>
