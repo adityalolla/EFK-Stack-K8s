@@ -1,9 +1,4 @@
 ### welcome
 
-vi README.md\
-git add README.md\
-git commit -m "initial commit"\
-git branch -M main\
-git remote remove origin\
-git remote add origin https://github.com/adityalolla/Docker-apps.git\
-git push -u origin main\
+NodeJS web app with express and pino logger library 
+Pushes application messages which are collected and visualized using EFK stack 
