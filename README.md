@@ -18,7 +18,7 @@ ditya --docker-password=****** --docker-email=adi*******@abc.com
 
 ### Linode K8s 
 
-Linode offers infrastructure on the cloud for pay per use model. The offer Kubernetes managed service as an offering. We will only be provisioning worker nodes and the control plane is managed by Linode. 
+Linode offers infrastructure on the cloud for pay per use model. They offer Kubernetes managed service as an offering. We will only be provisioning worker nodes and the control plane is managed by Linode. 
 
 Version : 1.18 
 Worker nodes : 80GB, 4GM RAM, 2CPU 
